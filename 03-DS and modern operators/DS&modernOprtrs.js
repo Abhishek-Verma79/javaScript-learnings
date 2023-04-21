@@ -1,8 +1,8 @@
 'use strict';
 
 // Data needed for a later exercise
-const flights =
-  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+// const flights =
+  // '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 // Data needed for first part of the section
 
@@ -55,6 +55,128 @@ const restaurant = {
 };
 
 
+/*
+
+//Maps ds
+const rest = new Map();
+rest.set('name','classico attiano');
+rest.set(1,'Firenze, Italy');
+console.log(rest.set(2,'Lisbon, portugal'));
+rest.set('categories',['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+.set('open',11)
+.set('close',23)
+.set(true,'We are open :D')
+.set(false,'We are closed :(');
+
+console.log(rest.get('name'));
+console.log(rest.get(true));
+
+const time = 21;
+const openOrClosed = rest.get(time > rest.get('open') && time < rest.get('close'));
+console.log(openOrClosed);
+
+console.log(rest.has('categories'));
+rest.delete(2);
+// rest.clear();
+console.log(rest.size);
+
+const arr = [1,2];
+rest.set(arr,'test');
+rest.set(document.querySelector('h1'),'heading');
+console.log(rest.get(arr));
+console.log(rest);
+
+const question = new Map([
+  ['question','What is the best programming lang in the world?'],
+  [1,'C'],
+  [2,'Java'],
+  [3,'JavaScript'],
+  ['correct',3],
+  [true,'correct🎉'],
+  [false,'Try again!'],
+]);
+
+console.log(question);
+
+//convert object to map
+console.log(Object.entries(openingHours));
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+// console.log(hoursMap.get('fri'));
+
+// maps are also iterable
+//quiz app
+console.log(question.get('question'));
+for(const [key,value] of question){
+  if(typeof key === 'number'){
+    console.log(`Answer ${key}: ${value}`);
+  }
+}
+
+
+// const ans = Number(prompt('Your answer?'));
+const ans = 3;
+console.log(ans);
+console.log(question.get(question.get('correct') === ans));
+// if(ans === question.get('correct')){
+//   console.log(question.get(true));
+// }else{
+//   console.log(question.get(false));
+// }
+
+//convert map to array
+console.log(...question);
+console.log(question.entries());
+console.log(...question.keys());
+console.log(...question.values());
+
+*/
+
+
+
+
+/*
+// SET ds
+const ordersSet = new Set([
+  'pasta',
+  'pizza',
+  'pizza',
+  'risotto',
+  'pasta',
+  'pizza',
+]);
+console.log(ordersSet);
+
+console.log(new Set('abhishek'));
+
+console.log(ordersSet.size);
+
+console.log(ordersSet.has('pizza'));
+console.log(ordersSet.has('Bread'));
+
+ordersSet.add('Garlic Bread'); 
+ordersSet.add('Garlic Bread'); // only one garlic bread will be added
+// ordersSet.clear();
+// console.log(ordersSet[2]); // it'll give undefined
+ordersSet.delete('risotto');
+console.log(ordersSet);
+
+for(const order of ordersSet) console.log(order);
+
+//Example
+const staff = ['Waiter','chef','Waiter', 'Manager', 'chef', 'Waiter'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+
+console.log(new Set(['Waiter','chef','Waiter', 'Manager', 'chef', 'Waiter']).size);
+console.log(new Set('Abhishek').size);
+
+*/
+
+
+
+/*
+
 //Looping objects
 const properties = Object.keys(openingHours);
 console.log(properties);
@@ -76,6 +198,7 @@ console.log(entries);
 for(const [key,{open:o,close:c}] of entries){
   console.log(`On ${key} we open at ${o} and close at ${c}`);
 }
+*/
 
 
 
