@@ -54,6 +54,162 @@ const restaurant = {
   
 };
 
+//Working with strings
+const airline = 'Tap Air Portugal';
+const plane = 'A320';
+console.log(plane[0]);
+console.log('B737'[0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r'));
+
+console.log(airline.slice(4));
+console.log(airline.slice(4,7));
+
+console.log(airline.slice(0,airline.indexOf(' ')));
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+console.log(airline.slice(-2));
+console.log(airline.slice(1,-1));
+
+
+const checkMiddleSeat = function(seat){
+  // B and E are middle seats
+  const s = seat.slice(-1);
+  if(s === 'B' || s === 'E'){
+    console.log('You got the middle seat!😬');
+  }else{
+    console.log('You got lucky!🎉');
+  }
+}
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+console.log(new String('Abhishek'));
+console.log(typeof new String('Abhishek'));
+console.log(typeof new String('Abhishek').slice(1));
+
+console.log(airline.toUpperCase());
+console.log(airline.toLowerCase());
+
+//Fix capitalization in name
+const passenger = 'jOnAs';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect = passengerLower[0].toUpperCase()+passengerLower.slice(1);
+console.log(passengerCorrect);
+
+//comparing email
+const email = 'hello@jonas.io';
+const loginEmail = '  Hello@JonAs.Io \n';
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimmedEmail = lowerEmail.trim();
+console.log(trimmedEmail);
+
+//or
+
+const normalizeEmail = loginEmail.toLowerCase().trim();
+console.log(normalizeEmail);
+console.log(email === normalizeEmail);
+
+//replacing
+const priceGB = '288.97£';
+const priceUS = priceGB.replace('£','$').replace(',','.');
+console.log(priceUS);
+
+const announcement = 'All passenger come to boarding door 23. Boarding door 23!';
+// console.log(announcement.replaceAll('door','gate'));
+//or using regular expressions
+console.log(announcement.replace(/door/g, 'gate'));
+
+
+//boolean methods
+const plane2 = 'A320neo';
+console.log(plane2.includes('320'));
+console.log(plane2.includes('320new'));
+console.log(plane2.startsWith('A3'));
+
+if(plane2.startsWith('A320') && plane2.endsWith('neo')){
+  console.log('part of the new airbus family!');
+}
+
+//practice exercise
+const checkBaggage = function(items){
+  const baggage = items.toLowerCase();
+  if(baggage.includes('knife') || baggage.includes('gun')){
+    console.log('We can\'t board you with this baggage');
+  }else{
+    console.log('You can board now. Happy journey!');
+  }
+};
+
+checkBaggage('I have a laptop, some food and a pocket Knife');
+checkBaggage('socks and camera');
+checkBaggage('Got some snacks and a gun for protection');
+
+
+
+//split
+console.log('a+very+nice+string'.split('+'));
+console.log('Abhishek Verma'.split(' '));
+
+const [firstName,lastName] = 'Abhishek Verma'.split(' ');
+console.log(firstName,lastName);
+
+
+//join
+const fullName = ['Mr.',firstName,lastName.toUpperCase()].join(' ');
+console.log(fullName);
+
+
+const capitalizeName = function(name){
+  const names = name.split(' ');
+  const namesUpper = [];
+  for(const n of names){
+    // namesUpper.push(n[0].toUpperCase()+n.slice(1));
+    namesUpper.push(n.replace(n[0],n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+}
+
+capitalizeName('jessica ann smith david');
+capitalizeName('abhishek verma');
+
+
+//padding 
+const message = 'Go to gate 23';
+console.log(message.padEnd(25,'+').padStart(30,'-'));
+console.log('Abhishek'.padStart(25,'+').padEnd(30,'-'));
+
+
+const maskCard = function(number){
+  // const str = String(number);
+  const str = number + '';
+  let strLen = str.length;
+  const newStr = str.slice(-4);
+  console.log(newStr.padStart(strLen,'*'));
+
+};
+
+maskCard(34734837438);
+maskCard(374374383718111);
+
+//repeat
+const message2 = 'Bad Weather... All Departues Delayed!';
+console.log(message2.repeat(5));
+
+const planesInLine = function(n){
+  console.log(`There are ${n} planes in line1 ${'✈️'.repeat(n)}`);
+};
+
+planesInLine(5);
+planesInLine(2);
+planesInLine(12);
+
+
 
 /*
 
