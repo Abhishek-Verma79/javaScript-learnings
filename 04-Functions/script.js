@@ -110,7 +110,7 @@ greet('Hello')('Abhishek');
 */
 
 
-
+/*
 
 //Call and Apply and bind method
 
@@ -207,4 +207,31 @@ const addTax2 = addTaxRate(.23);
 console.log(addTax2(100));
 console.log(addTax2(200));
 
+*/
 
+// Immediately invoked function expressions
+
+const runOnce = function(){
+    console.log('this will never run again!');
+}
+runOnce();
+// runOnce();
+
+
+//IIFE
+(function(){
+    console.log('this will never run again!');
+    const isPrivate = 23;
+})();
+
+// console.log(isPrivate); // can't access it here
+
+(() => console.log('this is arrow function (IIFE)!'))();
+
+{
+    const isPrivate = 2333;
+    var notPrivate = 444; // var is not block scoped
+}
+
+// console.log(isPrivate);
+console.log(notPrivate);
