@@ -80,9 +80,9 @@ const displayMovements = function (movements) {
 // displayMovements(account1.movements);
 
 //calculate the global balance and print that
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 // computing username
@@ -94,34 +94,26 @@ const createUsername = function (accs) {
       .map((name) => name[0])
       .join("");
   });
-
-  // const username = user.toLowerCase().split(' ');
-
-  // const newName = username.map(name => name[0]).join('');
-
-  // return newName;
 };
 
 createUsername(accounts);
-// console.log(accounts);
 
-// calcDisplayBalance(account1.movements);
 
 // display calculated summary
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const outcomes = movements
+  const outcomes = acc.movements
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(outcomes)}€`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter((mov) => mov > 0)
-    .map((deposit) => (deposit * 1.2) / 100)
+    .map((deposit) => (deposit * acc.interestRate) / 100)
     .filter((int,i,arr) => 
     // {
       // console.log(arr);
@@ -134,14 +126,24 @@ const calcDisplaySummary = function (movements) {
 };
 // calcDisplaySummary(account1.movements);
 
+const updateUI = function(acc){
+  //Display movements
+  displayMovements(currAccount.movements);
+  //Display balance
+  calcDisplayBalance(currAccount);
+  //Display summary
+  calcDisplaySummary(currAccount);
+}
+
 
 //implementing login
 //eventHandler
+let currAccount;
 btnLogin.addEventListener('click',function(e){
   //prevent form from submitting automatically 
   e.preventDefault();
 
-  const currAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  currAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
   // console.log(currAccount);
   if(currAccount?.pin === Number(inputLoginPin.value)){
     //Display UI and message
@@ -150,14 +152,41 @@ btnLogin.addEventListener('click',function(e){
     //clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-    //Display movements
-    displayMovements(currAccount.movements);
-    //Display balance
-    calcDisplayBalance(currAccount.movements);
-    //Display summary
-    calcDisplaySummary(currAccount.movements);
+    
+    //updating the UI
+    updateUI(currAccount);
+
   }
-})
+});
+
+
+// tranferring money from one acc to other
+ btnTransfer.addEventListener('click',function(e){
+      e.preventDefault();
+      const amount = Number(inputTransferAmount.value);
+      const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+      // console.log(amount,receiverAcc);
+      inputTransferAmount.value = inputTransferTo.value = '';
+
+      if(amount > 0 && receiverAcc && currAccount.balance >= amount && receiverAcc?.username !== currAccount.username){
+        //doing the transfer here
+        currAccount.movements.push(-amount);
+        receiverAcc.movements.push(amount);
+        updateUI(currAccount);
+      }
+ })
+
+
+ //closing the account
+ btnClose.addEventListener('click',function(e){
+  e.preventDefault();
+  if(inputCloseUsername.value === currAccount.username && Number(inputClosePin.value) === currAccount.pin){
+    const ind = accounts.findIndex(acc => acc.username === currAccount.username);
+    accounts.splice(ind,1);
+    containerApp.style.opacity = '0';
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+ })
 
 
 /////////////////////////////////////////////////
@@ -351,3 +380,11 @@ console.log(account);
 // }
 // console.log(account);
 */
+
+
+//some and every method
+console.log(movements);
+console.log(movements.includes(-130));
+
+const anyDeposits =  movements.some(mov => mov > 5000);
+console.log(anyDeposits);
