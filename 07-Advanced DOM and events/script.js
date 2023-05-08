@@ -1,12 +1,17 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+
+///////////////////////////////////////
+// Modal window
+
+
 
 const openModal = function (e) {
   e.preventDefault();
@@ -32,18 +37,16 @@ document.addEventListener('keydown', function (e) {
 });
 
 
+
 // Scroll smooth feature
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
 btnScrollTo.addEventListener('click',function(e){
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
-  console.log(e.target.getBoundingClientRect());
-  console.log('Current scroll (X/Y) ', window.pageXOffset,window.pageYOffset);
+  // const s1coords = section1.getBoundingClientRect();
+  // console.log(s1coords);
+  // console.log(e.target.getBoundingClientRect());
+  // console.log('Current scroll (X/Y) ', window.pageXOffset,window.pageYOffset);
 
-  console.log('Height and width of the viewport ', document.documentElement.clientHeight, document.documentElement.clientWidth);
+  // console.log('Height and width of the viewport ', document.documentElement.clientHeight, document.documentElement.clientWidth);
 
   //scrolling to section
   // window.scrollTo(s1coords.left+window.pageXOffset,s1coords.top+window.pageYOffset)
@@ -59,6 +62,32 @@ btnScrollTo.addEventListener('click',function(e){
 
   section1.scrollIntoView({behavior:"smooth"});
 });
+
+///////////////////////////////////////////////
+//page Navigation feature
+// document.querySelectorAll('.nav__link').forEach(function(el){
+//   el.addEventListener('click',function(e){
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     const sec = document.querySelector(id);
+//     sec.scrollIntoView({behavior:'smooth'});
+//   })
+// })
+
+//1. add event listener to common parent element
+//2. Determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click',function(e){
+  // console.log(e.target);
+  e.preventDefault();
+
+  //matching strategy
+  if(e.target.classList.contains('nav__link')){
+    const id = e.target.getAttribute('href');
+    const sec = document.querySelector(id);
+    sec.scrollIntoView({behavior:'smooth'});
+  }
+})
 
 
 ///////////////////////////////////////////////////////////////
@@ -149,3 +178,52 @@ logo.classList.contains('c');
 //Don't use it'll override all other classes and allow us only to put one class
 logo.className = 'Abhishek';
 */
+
+/*
+
+//types of events and event handlers
+const h1 = document.querySelector('h1');
+const alertH1 = function(e){
+    alert('You are reading the heading :D');
+    // h1.removeEventListener('mouseenter',alertH1);
+  };
+h1.addEventListener('mouseenter',alertH1);
+
+setTimeout(() => {
+  h1.removeEventListener('mouseenter',alertH1);
+}, 3000);
+
+// h1.onmouseenter = function(e){
+//   alert('You are reading the heading :D');
+// }
+*/
+
+/*
+//Event propagation in practice
+const randomInt = (min , max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () => `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
+// console.log(randomColor());
+
+document.querySelector('.nav__link').addEventListener('click',function(e){
+  this.style.backgroundColor = randomColor();
+  console.log('LINK',e.target,e.currentTarget);
+  console.log(e.currentTarget === this);
+  //stop propagation
+  // e.stopPropagation();
+});
+
+document.querySelector('.nav__links').addEventListener('click',function(e){
+  this.style.backgroundColor = randomColor();
+  console.log('CONTAINER',e.target,e.currentTarget);
+});
+
+document.querySelector('.nav').addEventListener('click',function(e){
+  this.style.backgroundColor = randomColor();
+  console.log('NAVBAR',e.target,e.currentTarget);
+});
+*/
+
+
+//Event delegation : implementing page navigation
+
