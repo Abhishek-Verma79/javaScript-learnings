@@ -291,6 +291,7 @@ martha.introduce();
 martha.calcAge();
 */
 
+/*
 /////////////////////////////////////////////////////
 /////Inheritance between classes : Object.create();
 
@@ -322,3 +323,78 @@ Abhishek.init('Abhishek Verma',2003,'CSE');
 Abhishek.introduce();
 Abhishek.calcAge();
 
+*/
+
+
+// Practice with ES6 classes
+//1. public fields
+//2. private fields
+//3. public methods
+//4. private methods
+// (there is also the static version)
+
+class Account {
+
+    //1. public field (instances)
+    locale = navigator.language;
+
+    //2. private field (instances)
+    #movements = [];
+    #pin;
+
+    constructor(owner,currency,pin){
+        this.owner = owner;
+        this.currency = currency;
+        //Protected property
+        this.#pin = pin;
+        // this._movements = [];
+        // this.locale = navigator.language;
+        console.log(`Thanks for opening the account ${owner}`);
+    }
+
+    //public interface / public methods
+    getMovements(){
+        return this.#movements;
+    }
+    deposite(val){
+        this.#movements.push(val);
+        return this;
+    }
+
+    withdraw(val){
+        this.deposite(-val);
+        return this;
+    }
+
+    
+    reqLoan(val){
+        if(this._approveLoan(val)){
+            this.deposite(val);
+            console.log(`Loan approved!`);
+            return this;
+        }
+    }
+
+    //4. private methods .. private methods are not realy implemented in js or g chrome
+    _approveLoan(val){
+        return true;
+    }
+
+}
+
+const acc1 = new Account('Jonas','EUR',1111);
+// acc1.movements.push(11);
+acc1.deposite(250);
+acc1.withdraw(140);
+acc1.reqLoan(1000);
+console.log(acc1.getMovements());
+// console.log(acc1._approveLoan());
+// console.log(acc1.#movements);
+// console.log(acc1.#pin);
+console.log(acc1);
+// console.log(acc1.#approveLoan(1000));
+
+
+// chaining methods
+acc1.deposite(300).deposite(500).withdraw(35).reqLoan(25000).withdraw(4000);
+console.log(acc1.getMovements());
