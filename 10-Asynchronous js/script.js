@@ -37,7 +37,7 @@ getContryData('russia');
 */
 
 
-
+/*
 // Callback hell
 const renderCountry = function(data, className=""){
     const html = `
@@ -55,6 +55,7 @@ const renderCountry = function(data, className=""){
         countriesContainer.insertAdjacentHTML('beforeend',html);
         // countriesContainer.style.opacity = '1'
 }
+*/
 
 
 /*
@@ -113,6 +114,8 @@ const getContryAndNeighbour = function(country){
     //     })
     // };
 
+
+    /*
     const renderErr = function(msg){
         countriesContainer.insertAdjacentText('beforeend',msg);
         // countriesContainer.style.opacity = 1;
@@ -125,6 +128,7 @@ const getContryAndNeighbour = function(country){
             return response.json();
         });
     };
+    */
     
 
     // const getCountryData = function(country){
@@ -156,7 +160,7 @@ const getContryAndNeighbour = function(country){
     //     })
     // };
 
-
+/*
     const getCountryData = function(country){
         //Country 1
         getJSON(`https://restcountries.com/v3.1/name/${country}`,'Country not found')        
@@ -172,7 +176,7 @@ const getContryAndNeighbour = function(country){
         })
         .then(data => renderCountry(data[0],'neighbour'))
         .catch(err => {
-            console.error(`${err} 💥💥💥`);
+            // console.error(`${err} 💥💥💥`);
             renderErr(`Something went wrong 💥💥 ${err.message}. Try again!`)
         })
         .finally(() => {
@@ -184,6 +188,192 @@ const getContryAndNeighbour = function(country){
 
         getCountryData('Bharat');
     });
+*/
+
+    /*
+///////////////EVENT LOOP IN PRACTICE
+console.log('Test start');
+setTimeout(() => console.log('0 sec timer'),0);
+Promise.resolve('Resolve promise 1')
+.then(res => console.log(res))
+
+Promise.resolve('Resolve promise 2')
+.then(res =>{
+    for(let i = 0; i < 1000000000; i++){}
+    console.log(res)
+})
+console.log('Test end');
+
+
+/////////Building  NEW PROMISE
+
+
+const lotteryPromise = new Promise(function(resolve,reject){
+    
+    console.log('Lottery draw is happening! 🔮');
+    setTimeout(function(){
+        if(Math.random() >= .5){
+            resolve('you WIN 💰');
+        }else{
+            reject(new Error('you lost your money 💩'));
+        }
+    },2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err) );
+
+
+// Promisifying setTimeout
+const wait = function(seconds){
+    return new Promise(function(resolve){
+        setTimeout(resolve, seconds*1000);
+    });
+};
+
+// escaping callback hell
+wait(1).then(() =>{
+     console.log('1 second passed!');
+     return wait(1);
+})
+.then(() => {
+    console.log('2 seconds passed!');
+    return wait(1);
+})
+.then(() => {
+    console.log('3 seconds passed!');
+    return wait(1);
+})
+.then(() => console.log('4 seconds passed!'))
 
 
 
+
+/////////PROMISIFYING GEOLOCATION API
+// navigator.geolocation.getCurrentPosition(
+//     position => console.log(position),
+//     err => console.log(err)
+// )
+// console.log('geolocation api started');
+
+
+const getPostion = function(){
+    return new Promise(function(resolve,reject){
+        // navigator.geolocation.getCurrentPosition(
+        //     position => resolve(position),
+        //     err => reject(err)
+        // )
+        navigator.geolocation.getCurrentPosition(resolve,reject);
+    });
+};
+
+getPostion().then(res => console.log(res));
+
+
+
+/////////ASYNC AWAIT
+// just syntactic sugar over .then method
+const whereAmI = async function(country){
+    // fetch(`https://restcountries.com/v3.1/name/${country}`)
+    // .then(res => console.log(res));
+
+    try{const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+    const [data] = await res.json();
+    console.log(data);}
+    catch(err){
+        console.error(err);
+    }
+
+}
+whereAmI('Bharat');
+console.log('First');
+
+//////////TRY AND CATCH
+try{
+    let x = 1;
+    const y = 2;
+    x = 3;
+}
+catch(err){
+    alert(err.message);
+}
+*/
+
+
+/////////PARALLEL PROMISES (MANY AT SAME TIME)
+/////////////////////////////////////////////
+const getJSON = function(url,errMsg = "Something went wrong!"){
+    return fetch(url).then(response => {
+        if(!response.ok) throw new Error(`${errMsg} (${response.status})`);
+
+        return response.json();
+    });
+};
+const get3Countries = async function(c1,c2,c3){
+    try{
+        const data = await Promise.all(
+            [
+                getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+                getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+                getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+            ]
+        );
+        // console.log(data.map(d => d[0].capital[0]));
+
+    }
+    catch(err){
+        console.log(err);
+    }
+};
+
+get3Countries('Bharat','canada','tanzania');
+
+
+////////////Promise.race
+(async function(){
+    const res = await Promise.race([
+        getJSON(`https://restcountries.com/v3.1/name/Bharat`),
+        getJSON(`https://restcountries.com/v3.1/name/Italy`),
+        getJSON(`https://restcountries.com/v3.1/name/Egypt`)
+    ]);
+    console.log(res[0]);
+})();
+
+const timeout =  function(s){
+    return new Promise((_ ,reject) => {
+        setTimeout(() => {
+            reject(new Error("Request took too long!"));
+        }, s * 1000);
+    });
+};
+
+Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/Bharat`),
+    timeout(.1),
+]).then(res => console.log(res[0]))
+.catch(error => console.log(error));
+
+
+///////Promise.allSettled
+Promise.allSettled([
+    Promise.resolve('Success'),
+    Promise.reject('Failed'),
+    Promise.resolve('Success Again'),
+])
+.then(res => console.log(res));
+
+//Promise.allSettled vs Promise.all
+Promise.all([
+    Promise.resolve('Success'),
+    Promise.reject('Failed Bruh'),
+    Promise.resolve('Success Again'),
+])
+.then(res => console.log(res))
+.catch(err => console.log(err));
+
+
+///Promise.any()
+Promise.any([
+    Promise.reject('Failed Bruh'),
+    Promise.reject('Success'),
+    Promise.resolve('Success Again'),
+]).then(res => console.log(res));
